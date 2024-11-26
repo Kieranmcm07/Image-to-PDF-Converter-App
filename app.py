@@ -17,19 +17,40 @@ class ImageToPDFConverter:
             self.root, text="Image to PDF Converter", font=("Arial", 16, "bold")
         )
         title_label.pack(pady=10)
-        
+
         select_images_button = tk.Button(
-            self.root, text="Select Images", command=self.selected_images_listbox)
+            self.root, text="Select Images", command=self.selected_images_listbox
+        )
         select_images_button.pack(pady=(0, 10))
 
         self.selected_images_listbox.pack(pady=(0, 10), fill=tk.BOTH, expand=True)
-        
+
         label = tk.Label(self.root, text="Enter output PDF name:")
         label.pack()
-        
-        pdf_name_entry = tk.Entry(self.root, textvariable=self.output_pdf_name, width=40, justify="center")
+
+        pdf_name_entry = tk.Entry(
+            self.root, textvariable=self.output_pdf_name, width=40, justify="center"
+        )
         pdf_name_entry.pack()
+
+        convert_button = tk.Button(
+            self.root, text="Convert to PDF", command=self.convert_images_to_pdf
+        )
+        convert_button.pack(pady=(20, 40))
+
+    def select_images(self):
+        self.image_paths = filedialog.askopenfilenames(
+            title="Select Images", filetypes=[("Image Files", "*.jpg;*.png;*.jpeg")]
+        )
+        self.update_selected_images_listbox()
         
+    def update_selected_images_listbox(self):
+        self.selected_images_listbox.delete(0, tk.END)
+        
+        for image_path in self.image_paths:
+            _, image_paths = os.path.split(image_path)
+            self.selected_images_listbox.insert(tk.END, image_paths)
+
 
 def main():
     root = tk.Tk()
